@@ -36,7 +36,7 @@ Parcial-Aprendizaje-Automatico/
 │   └── processed/                   
 │
 ├── notebooks/
-    └── Prueba parcial.ipynb                       
+    └── Prueba_parcial.ipynb                       
 │
 ├── docs/                            
 │   ├── Parcial-Entrega_1.pdf
