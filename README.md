@@ -35,7 +35,8 @@ Parcial-Aprendizaje-Automatico/
 │   │   └── base_usuario_encoprac2022.txt (en analisis para uso final)
 │   └── processed/                   
 │
-├── notebooks/                       
+├── notebooks/
+    └── Prueba parcial.ipynb                       
 │
 ├── docs/                            
 │   ├── Parcial-Entrega_1.pdf
