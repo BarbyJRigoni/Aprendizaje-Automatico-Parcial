@@ -73,7 +73,7 @@ Parcial-Aprendizaje-Automatico/
 | Año | 2022 |
 | Registros totales | 12.062 |
 | Variables | 562 |
-| Fuente | (https://www.indec.gob.ar/indec/web/Institucional-Indec-BasesDeDatos-2) |
+| Fuente | [INDEC: Instituto Nacional de Estadística y Censoa] (https://www.indec.gob.ar/indec/web/Institucional-Indec-BasesDeDatos-2) |
 
 ---
 
