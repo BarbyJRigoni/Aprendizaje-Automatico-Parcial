@@ -1,8 +1,8 @@
-![Portada del proyecto](images/imagen_portada.jpg)
+![Portada](reports/figures/grafico9_clusters_tdf.png)
 
-# Aprendizaje No Supervisado aplicado al consumo de sustancias psicoactivas en jóvenes
-### Un enfoque Nacional con perspectiva territorial en Tierra del Fuego
-
+# Aprendizaje No Supervisado Aplicado al Consumo de Sustancias Psicoactivas en Jóvenes
+## Un enfoque Nacional con perspectiva territorial en Tierra del Fuego
+---
 ![Python](https://img.shields.io/badge/Python-3.x-blue)
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-orange)
 ![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-yellow)
