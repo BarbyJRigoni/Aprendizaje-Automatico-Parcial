@@ -1,3 +1,5 @@
+![Portada del proyecto](images/imagen_portada.jpg)
+
 # Aprendizaje No Supervisado aplicado al consumo de sustancias psicoactivas en jóvenes
 ### Un enfoque Nacional con perspectiva territorial en Tierra del Fuego
 
@@ -5,119 +7,144 @@
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-ML-orange)
 ![Jupyter](https://img.shields.io/badge/Jupyter-Notebook-yellow)
 ![Estado](https://img.shields.io/badge/Estado-En%20desarrollo-green)
+![Licencia](https://img.shields.io/badge/Licencia-Dominio%20P%C3%BAblico-lightgrey)
 
 ---
 
-## Descripción del Proyecto
+## 📌 Descripción del Proyecto
 
 Este proyecto aplica técnicas de **Aprendizaje Automático No Supervisado** para identificar y caracterizar perfiles naturales de consumo de sustancias psicoactivas en jóvenes de 16 a 24 años de Argentina, con un análisis comparativo específico para la **Provincia de Tierra del Fuego, Antártida e Islas del Atlántico Sur**.
 
-A diferencia de los enfoques tradicionales que imponen categorías predefinidas, este proyecto propone que los propios datos revelen patrones sin sesgos previos.
+A diferencia de los enfoques tradicionales que imponen categorías predefinidas, este proyecto permite que sean los propios datos quienes revelen los patrones subyacentes, evitando sesgos en la clasificación del riesgo.
 
 ---
 
-## Objetivo General
+## 🎯 Objetivo General
 
 Identificar automáticamente perfiles de consumo de sustancias psicoactivas en jóvenes de entre 16 y 24 años de Argentina, por medio de técnicas de Aprendizaje No Supervisado, y analizar comparativamente los patrones identificados en la Provincia de Tierra del Fuego respecto del resto del país.
 
 ---
 
-## Estructura del Repositorio
+## 🗂️ Estructura del Repositorio
 
 ```
 Parcial-Aprendizaje-Automatico/
 │
-├── README.md                        
+├── README.md
+├── images/
+│   └── imagen_portada.jpg
 │
 ├── data/
-│   ├── raw/                         
+│   ├── raw/                          ← Datasets originales sin modificar
 │   │   ├── Base_Usuario_ENPreCoSP-2011.txt
-│   │   └── base_usuario_encoprac2022.txt (en analisis para uso final)
-│   └── processed/                   
+│   │   └── base_usuario_encoprac2022.txt
+│   └── processed/                    ← Datos filtrados y listos para usar
+│       ├── ENPreCoSP_2011_jovenes_16_24.csv
+│       └── ENCoPraC_2022_jovenes_16_24.csv
 │
-├── notebooks/
-    └── Prueba_parcial.ipynb                       
+├── notebooks/                        ← Notebooks Jupyter del proyecto
+│   └── Rigoni_Barbara_Parcial.ipynb
 │
-├── docs/                            
-│   ├── Parcial-Entrega_1.pdf
-│   └── Parcial-Entrega_2.pdf
+├── docs/                             ← Documentos de entregas parciales
+│   ├── Parcial-Entrega_1.md
+│   └── Parcial-Entrega_2.md
 │
-├── src/                             
+├── reports/
+│   └── figures/                      ← Gráficos y visualizaciones
 │
-└── references/                      
+├── src/                              ← Scripts Python reutilizables
+│
+└── references/                       ← Documentación y diccionario del dataset
     └── enprecosp_2011_documento_baseusuario.pdf
+    └── manual_uso_base_encoprac.pdf
 ```
 
 ---
 
-## Datasets
+## 📊 Datasets
 
 ### Dataset Principal — ENPreCoSP 2011
 | Característica | Valor |
 |---|---|
-| Nombre | Encuesta Nacional sobre Prevalencias de Consumo de Sustancias Psicoactivas |
-| Organismo | INDEC / Ministerio de Salud / SEDRONAR |
-| Año | 2011 |
-| Registros totales | 34.343 |
-| Variables | 291 |
-| Subconjunto del proyecto (16-24 años) | 6.592 registros |
-| Subconjunto Tierra del Fuego (16-24 años) | 265 registros |
-| Fuente | (https://www.indec.gob.ar/indec/web/Institucional-Indec-BasesDeDatos-2)|
-| Licencia | Dominio público |
+| **Nombre** | Encuesta Nacional sobre Prevalencias de Consumo de Sustancias Psicoactivas |
+| **Organismo** | INDEC / Ministerio de Salud / SEDRONAR |
+| **Año** | 2011 |
+| **Registros totales** | 34.343 |
+| **Variables** | 291 |
+| **Subconjunto del proyecto (16-24 años)** | 6.592 registros |
+| **Subconjunto Tierra del Fuego (16-24 años)** | 265 registros |
+| **Fuente** | [indec.gob.ar](https://www.indec.gob.ar/indec/web/Institucional-Indec-BasesDeDatos-2) |
+| **Licencia** | Dominio público |
 
-### Dataset Complementario — ENCoPraC 2022 (en análisis para uso final)
+### Dataset Complementario — ENCoPraC 2022
 | Característica | Valor |
 |---|---|
-| Nombre | Encuesta Nacional sobre Consumos y Prácticas de Cuidado |
-| Organismo | SEDRONAR / INDEC |
-| Año | 2022 |
-| Registros totales | 12.062 |
-| Variables | 562 |
-| Fuente | [INDEC: Instituto Nacional de Estadística y Censoa] (https://www.indec.gob.ar/indec/web/Institucional-Indec-BasesDeDatos-2) |
+| **Nombre** | Encuesta Nacional sobre Consumos y Prácticas de Cuidado |
+| **Organismo** | SEDRONAR / INDEC |
+| **Año** | 2022 |
+| **Registros totales** | 12.062 |
+| **Subconjunto (16-24 años)** | 1.798 registros |
+| **Variables** | 562 |
+| **Fuente** | [indec.gob.ar](https://www.indec.gob.ar/indec/web/Institucional-Indec-BasesDeDatos-2)) |
 
 ---
 
-## Técnicas de Aprendizaje Automático
+## 🤖 Técnicas de Aprendizaje Automático
 
 | Técnica | Rol en el proyecto |
 |---|---|
 | **K-Means** | Descubrimiento de grupos naturales de jóvenes |
 | **DBSCAN** | Validación de clusters y detección de outliers |
-| **PCA** | Herramienta de visualización (reducción de dimensionalidad) |
+| **PCA** | Reducción de dimensionalidad y visualización |
+| **Random Forest** | Validación de significatividad de clusters e importancia de variables |
 
 ### Métricas de evaluación
 - Coeficiente de Silhouette
 - Índice de Davies-Bouldin
-- Método del Codo (para K-Means)
+- Método del Codo
+- Accuracy (Random Forest)
 
 ---
 
-## Variables del Proyecto
+## 🔬 Principales Hallazgos
 
-### Variables para el agrupamiento (16 variables)
-| Categoría | Variables |
-|---|---|
-| Sociodemográficas | Sexo, Edad, Nivel de instrucción, Condición de actividad |
-| Contexto familiar | Tipo de hogar, NBI, Rango de ingreso |
-| Salud y entorno | Autopercepción de salud, Visita a salud mental, Entorno con consumidores, Curiosidad y acceso a drogas |
-| Territorial | Región, Tamaño del aglomerado, Provincia |
+### Perfiles descubiertos
+| Perfil | Proporción | Características |
+|---|---|---|
+| 🟢 Bajo consumo | 60,1% | Consumo moderado de alcohol |
+| 🔴 Alto consumo | 30,2% | Alcohol, tabaco y marihuana elevados |
+| 🟡 Consumo moderado | 9,7% | Alcohol y tabaco sin sustancias ilícitas |
 
-### Variables de consumo (análisis descriptivo)
-`P1A_BA` · `P1A_TA` · `P1A_MA` · `P1A_CO` · `P1A_PB` · `P1A_TR`
+### Tierra del Fuego vs Nacional
+| Indicador | Nacional | TDF |
+|---|---|---|
+| Cluster alto consumo | 30,2% | **51,3%** |
+| Alcohol | 67,4% | **73,6%** |
+| Tabaco | 32,4% | **40,0%** |
+| Marihuana | 4,3% | **6,0%** |
+
+### Variables más influyentes
+1. 🥇 Acceso a drogas
+2. 🥈 Conocer consumidores cercanos
+3. 🥉 Curiosidad por probar drogas
+4. Ingreso del hogar
 
 ---
 
-## Tecnologías
+## 🛠️ Tecnologías
 
-- **Python 3.x**
-- **pandas** — manipulación de datos
-- **scikit-learn** — modelos de ML
-- **matplotlib / seaborn** — visualizaciones
-- **Jupyter Notebook** — desarrollo interactivo
+```python
+# Librerías principales
+pandas          # Manipulación de datos
+numpy           # Operaciones numéricas
+scikit-learn    # Modelos de ML
+matplotlib      # Visualizaciones
+seaborn         # Visualizaciones estadísticas
+```
 
 ---
 
-## Entregas
+## 📅 Entregas
 
 | Entrega | Descripción | Estado |
 |---|---|---|
@@ -127,18 +154,19 @@ Parcial-Aprendizaje-Automatico/
 
 ---
 
-## Referencias
+## 📚 Referencias
 
-- INDEC / Ministerio de Salud (2011). *ENPreCoSP 2011 — Encuesta Nacional sobre Prevalencias de Consumo de Sustancias Psicoactivas*. Buenos Aires: INDEC.
-- SEDRONAR / INDEC (2022). *ENCoPraC 2022 — Encuesta Nacional sobre Consumos y Prácticas de Cuidado*. Buenos Aires: SEDRONAR. (en analisis para uso final)
-- MedlinePlus / NIH (2025). *Trastorno de consumo de drogas — Factores de riesgo*. Disponible en: medlineplus.gov
+- INDEC / Ministerio de Salud (2011). *ENPreCoSP 2011*. Buenos Aires: INDEC.
+- SEDRONAR / INDEC (2022). *ENCoPraC 2022*. Buenos Aires: SEDRONAR.
+- MedlinePlus / NIH (2025). *Trastorno de consumo de drogas — Factores de riesgo*.
+- Rousseeuw, P.J. (1987). *Silhouettes: a graphical aid to the interpretation and validation of cluster analysis*. Journal of Computational and Applied Mathematics, 20, 53-65.
 - Observatorio Argentino de Drogas — SEDRONAR. *Informes de prevalencias de consumo en población joven*.
 
 ---
 
-## Consideraciones Éticas
+## ⚖️ Consideraciones Éticas
 
-Los datos utilizados provienen de una encuesta oficial de dominio público, anonimizada y sin datos personales identificables, en cumplimiento con la Ley N° 17.622 de Resguardo del Secreto Estadístico.
+Los datos utilizados provienen de una encuesta oficial de dominio público, anonimizada y sin datos personales identificables, en cumplimiento con la **Ley N° 17.622 de Resguardo del Secreto Estadístico**.
 
 ---
 
