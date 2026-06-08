@@ -3,7 +3,7 @@
 
 ---
  
-![Portada del proyecto](images/imagen_portada.svg)
+![Portada del proyecto](images/portada_proyecto.svg)
 
 
 ---
