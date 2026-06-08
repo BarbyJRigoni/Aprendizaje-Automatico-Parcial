@@ -1,9 +1,6 @@
-<h1 align="center">Aprendizaje No Supervisado Aplicado al Consumo de Sustancias Psicoactivas en Jóvenes</h1>
-<h2 align="center">Un enfoque Nacional con Perspectiva Territorial en Tierra del Fuego</h2>
-
 ---
  
-![Portada del proyecto](images/portada_proyecto_tdf.svg)
+![Portada del proyecto](images/portada_proyecto_tdf_v2.svg)
 
 
 ---
