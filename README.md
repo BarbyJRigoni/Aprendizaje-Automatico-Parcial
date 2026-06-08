@@ -1,6 +1,6 @@
 ---
  
-![Portada del proyecto](images/portada_proyecto_tdf_v2.svg)
+![Portada del proyecto](images/portada_tdf_fullwidth.svg)
 
 
 ---
