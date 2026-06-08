@@ -86,7 +86,7 @@ Parcial-Aprendizaje-Automatico/
 | **Registros totales** | 12.062 |
 | **Subconjunto (16-24 años)** | 1.798 registros |
 | **Variables** | 562 |
-| **Fuente** | [indec.gob.ar](https://www.indec.gob.ar/indec/web/Institucional-Indec-BasesDeDatos-2)) |
+| **Fuente** | [indec.gob.ar](https://www.indec.gob.ar/indec/web/Institucional-Indec-BasesDeDatos-2) |
 
 ---
 
@@ -97,7 +97,7 @@ Parcial-Aprendizaje-Automatico/
 | **K-Means** | Descubrimiento de grupos naturales de jóvenes |
 | **DBSCAN** | Validación de clusters y detección de outliers |
 | **PCA** | Reducción de dimensionalidad y visualización |
-| **Random Forest** | Validación de significatividad de clusters e importancia de variables |
+| **Random Forest** | Identificación de variables más relevantes en la separación de perfiles |
 
 ### Métricas de evaluación
 - Coeficiente de Silhouette
