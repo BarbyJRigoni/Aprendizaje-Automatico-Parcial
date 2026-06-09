@@ -1,0 +1,24 @@
+# 📚 Referencias
+
+## Datasets
+
+- [ENPreCoSP 2011 — INDEC](https://www.indec.gob.ar/ftp/cuadros/menusuperior/enprecosp/bases_enprecosp2011.rar)
+- [ENCoPraC 2022 — INDEC](https://www.indec.gob.ar/ftp/cuadros/menusuperior/encoprac/base_usuario_encoprac2022.zip)
+
+## Bibliografía
+
+- Rousseeuw, P.J. (1987). *Silhouettes: a graphical aid to the interpretation and validation of cluster analysis*
+1. [Rousseeuw Silhouettes JCAM ScienceDirectOpenArchive 1987 — Section of Statistics and Risk](https://wis.kuleuven.be/stat/robust/papers/publications-1987/rousseeuw-silhouettes-jcam-sciencedirectopenarchiv.pdf/view?utm_source=openai)
+2. [Curse of dimensionality](https://en.wikipedia.org/wiki/Curse_of_dimensionality?utm_source=openai)
+3. [How I learned to stop worrying and love the curse of dimensionality: an appraisal of cluster validation in high-dimensional spaces](https://arxiv.org/abs/2201.05214?utm_source=openai)
+4. [silhouette\_score — scikit-learn 1.7.0 documentation - sklearn](https://sklearn.org/stable/modules/generated/sklearn.metrics.silhouette_score.html?utm_source=openai)
+
+- MedlinePlus / NIH (2025). *Trastorno de consumo de drogas — Factores de riesgo*
+1. [Trastorno de consumo de drogas: MedlinePlus enciclopedia médica](https://medlineplus.gov/spanish/ency/article/001522.htm?utm_source=openai)
+
+- Observatorio Argentino de Drogas — SEDRONAR. *Informes de prevalencias*
+1. [Estudios e Investigaciones | Argentina.gob.ar](https://www.argentina.gob.ar/sedronar/investigacion-y-estadisticas/observatorio-argentino-de-drogas/estudios?utm_source=openai)
+
+## Normativa
+- Ley N° 17.622 — Resguardo del Secreto Estadístico
+1. [Ley N°17.622](https://www.indec.gob.ar/ftp/documentos/Ley_17622.htm?utm_source=openai)
