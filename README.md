@@ -46,15 +46,15 @@ Parcial-Aprendizaje-Automatico/
 ├── notebooks/                        ← Notebooks Jupyter del proyecto
 │   └── Rigoni_Barbara_Parcial.ipynb
 │
-├── docs/                             ← Documentos de entregas parciales
-│   ├── Parcial-Entrega_1.md
-│   └── Parcial-Entrega_2.md
+├── docs/                             ← Documento de entrega 
+│   ├── entrega.md
 │
 ├── reports/
 │   └── figures/                      ← Gráficos y visualizaciones
-│
-├── src/                              ← Scripts Python reutilizables
-│
+│   
+├── video/                            ← Video donde se acompaña y explica el proyecto
+│   └── Link.md
+|
 └── references/                       ← Documentación y diccionario del dataset
     └── enprecosp_2011_documento_baseusuario.pdf
     └── manual_uso_base_encoprac.pdf
@@ -142,16 +142,6 @@ scikit-learn    # Modelos de ML
 matplotlib      # Visualizaciones
 seaborn         # Visualizaciones estadísticas
 ```
-
----
-
-## 📅 Entregas
-
-| Entrega | Descripción | Estado |
-|---|---|---|
-| Entrega 1 | Descripción y Formulación del Objetivo | ✅ Completada |
-| Entrega 2 | Descripción del Dataset y Origen | ✅ Completada |
-| Entrega 3 | Modelo, Análisis y Resultados | 🔄 En desarrollo |
 
 ---
 
