@@ -40,7 +40,7 @@ El consumo de sustancias psicoactivas en adolescentes y jóvenes constituye uno 
 
 La Provincia de Tierra del Fuego, Antártida e Islas del Atlántico Sur presenta características sociodemográficas particulares —aislamiento geográfico, alta migración interna, elevado costo de vida y escasa oferta de actividades recreativas— que la distinguen del resto del país. Los datos disponibles indican que los jóvenes fueguinos presentan prevalencias de consumo superiores a la media nacional: 82,6% en alcohol (vs. 75,7% nacional), 62,3% en tabaco (vs. 44,8%) y 21,5% en marihuana (vs. 10,8%).
 
-A diferencia de los enfoques tradicionales que imponen categorías de riesgo predefinidas, este proyecto propone aplicar técnicas de Aprendizaje No Supervisado para descubrir, de manera objetiva, los perfiles naturales de consumo presentes en la población joven argentina, permitiendo que sean los propios datos quienes revelen los patrones subyacentes sin sesgos previos.
+A diferencia de los enfoques tradicionales que imponen categorías de riesgo predefinidas, este proyecto propone aplicar técnicas de Aprendizaje No Supervisado para descubrir, de manera objetiva, los perfiles naturales de consumo presentes en la población joven argentina, permitiendo identificar agrupamientos naturales a partir de las similitudes presentes en los datos, sin sesgos previos.
 
 ---
 
@@ -52,7 +52,7 @@ Identificar automáticamente perfiles de consumo de sustancias psicoactivas en j
 
 ### Objetivos Específicos
 
-1. Explorar y preprocesar los datos de la ENPreCoSP 2011, filtrando el grupo etario de 16 a 24 años a nivel nacional (6.592 registros) y el subconjunto de Tierra del Fuego (265 registros, `PRVNC = 94`).
+1. Explorar y preprocesar los datos de la ENPreCoSP 2011, filtrando el grupo etario de 16 a 24 años a nivel nacional y el subconjunto de Tierra del Fuego (`PRVNC = 94`).
 2. Aplicar el algoritmo K-Means para descubrir grupos naturales de jóvenes según sus perfiles de consumo y características sociodemográficas, determinando el número óptimo de clusters mediante el método del codo y el coeficiente de Silhouette.
 3. Aplicar el algoritmo DBSCAN para validar los grupos encontrados por K-Means y detectar jóvenes con perfiles atípicos (outliers).
 4. Aplicar PCA como herramienta de visualización para representar gráficamente la distribución de los jóvenes en un espacio de menor dimensión.
@@ -176,20 +176,22 @@ El preprocesamiento se realizó en 6 pasos:
 | 5 | Imputación | Mediana para RANGOING, moda para el resto |
 | 6 | Normalización (StandardScaler) | Media=0, Std=1 en todas las variables |
 
-**Dataset final:** 6.592 registros × 14 variables (sin `PRVNC`) para el modelado.
+> Como resultado de este proceso se obtuvo un conjunto de datos limpio, consistente y sin valores faltantes, apto para la aplicación de los algoritmos de clustering.
+> > **Dataset final:** 6.592 registros × 14 variables (sin `PRVNC`) para el modelado.
 
 ---
 
 ## 8. Análisis Exploratorio de Datos (EDA)
 
-**Perfil sociodemográfico:**
+### **Perfil sociodemográfico:**
 
 ![Perfil sociodemográfico — Distribución por sexo y edad](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico1_perfil_sociodemografico.png)
 
-- Distribución equilibrada por sexo (51,9% mujeres / 48,1% varones)
-- Distribución uniforme de edades entre 16 y 24 años
+  ### Interpretación
 
-**Consumo de sustancias — Nacional vs TDF:**
+La distribución de la muestra presenta un equilibrio entre mujeres (51,9%) y varones (48,1%), mientras que las edades se distribuyen de manera relativamente uniforme entre los 16 y los 24 años. Esta composición resulta favorable para el análisis, ya que reduce el riesgo de que los resultados estén fuertemente condicionados por un predominio de un sexo o de una edad específica dentro de la población estudiada. En consecuencia, las diferencias observadas en etapas posteriores podrán interpretarse con mayor énfasis en función de las variables analizadas y no como un efecto de la estructura demográfica de la muestra.
+
+### **Consumo de sustancias — Nacional vs TDF:**
 
 ![Prevalencia de consumo último año — Nacional vs TDF](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico2_consumo_sustancias.png)
 
@@ -199,7 +201,13 @@ El preprocesamiento se realizó en 6 pasos:
 | Tabaco | 32,4% | 40,0% | +7,6% |
 | Marihuana | 4,3% | 6,0% | +1,7% |
 
-**Factores de entorno — Nacional vs TDF:**
+### Interpretación
+
+El análisis descriptivo muestra que Tierra del Fuego presenta prevalencias de consumo superiores al promedio nacional para las tres sustancias consideradas. Las mayores diferencias se observan en alcohol y tabaco, mientras que el consumo de marihuana también registra valores superiores, aunque con una brecha más moderada.
+
+Estos resultados constituyen uno de los primeros indicios de que la población joven fueguina podría presentar un patrón de consumo diferencial respecto del conjunto nacional. No obstante, esta evidencia corresponde a un análisis descriptivo y será complementada posteriormente mediante técnicas de aprendizaje automático que permitan identificar perfiles de comportamiento más complejos.
+
+### **Factores de entorno — Nacional vs TDF:**
 
 ![Factores de entorno social — Nacional vs TDF](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico3_entorno_social.png)
 
@@ -209,20 +217,31 @@ El preprocesamiento se realizó en 6 pasos:
 | Curiosidad por drogas | 14,8% | 25,3% |
 | Acceso a drogas | 34,8% | 52,1% |
 
-**Perfil educativo y laboral:**
+### Interpretación
+
+Las variables relacionadas con el entorno social muestran diferencias relevantes entre Tierra del Fuego y el promedio nacional. En la provincia se observa una mayor proporción de jóvenes que manifiestan conocer personas consumidoras, sentir curiosidad por probar drogas y percibir un acceso más sencillo a estas sustancias.
+
+En conjunto, estos resultados sugieren una mayor exposición al contexto de consumo dentro de la población fueguina. Si bien el análisis descriptivo no permite establecer relaciones causales, estas variables podrían desempeñar un papel importante en la diferenciación de los perfiles identificados durante la etapa de modelado.
+
+### **Perfil educativo y laboral:**
 
 ![Perfil educativo y laboral — Nacional vs TDF](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico4_educacion_actividad.png)
 
-- TDF tiene mayor proporción de ocupados (59,6% vs 45,1%)
-- TDF tiene menor proporción de inactivos (34,3% vs 48,1%)
-- TDF muestra abandono educativo más temprano
+### Interpretación
 
-**Contexto socioeconómico:**
+En comparación con el promedio nacional, Tierra del Fuego presenta una mayor proporción de jóvenes ocupados y una menor proporción de inactivos. Al mismo tiempo, se observa un abandono educativo más temprano dentro de la muestra provincial.
+
+Estos resultados reflejan una dinámica distinta de inserción educativa y laboral, lo que sugiere que el contexto socioeconómico de la provincia posee características particulares que podrían influir en los patrones de consumo observados. Por este motivo, estas variables serán consideradas en la interpretación integral de los clusters obtenidos.
+
+### **Contexto socioeconómico:**
 
 ![Contexto socioeconómico — Nacional vs TDF](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico5_contexto_socioeconomico.png)
 
-- TDF tiene menos NBI (88,7% sin ninguna vs 82,6%)
-- TDF tiene ingresos significativamente más altos (49,1% en rango alto vs 10,4%)
+### Interpretación
+
+El análisis del contexto socioeconómico indica que Tierra del Fuego presenta una menor proporción de hogares con Necesidades Básicas Insatisfechas y una concentración significativamente mayor de jóvenes en los niveles de ingresos más altos respecto del promedio nacional.
+
+Este hallazgo resulta especialmente relevante para la investigación, ya que permite evaluar posteriormente si las diferencias observadas en los perfiles de consumo pueden explicarse únicamente por variables económicas o si intervienen otros factores asociados al entorno social y al acceso a sustancias. En este sentido, el análisis posterior de los modelos permitirá profundizar esta interpretación.
 
 ### Hallazgos principales del EDA
 
@@ -237,6 +256,11 @@ El preprocesamiento se realizó en 6 pasos:
 | Ocupados | 45,1% | 59,6% |
 | Ingresos altos | 10,4% | 49,1% |
 
+### Interpretación general del EDA
+
+En conjunto, el análisis exploratorio evidencia que Tierra del Fuego presenta diferencias consistentes respecto del promedio nacional en múltiples dimensiones. La provincia registra mayores prevalencias de consumo de sustancias, una mayor exposición a entornos vinculados al consumo y una percepción de acceso más elevada. Al mismo tiempo, muestra mejores indicadores económicos y una mayor participación laboral juvenil.
+
+La coexistencia de estos resultados sugiere que el fenómeno del consumo no puede interpretarse exclusivamente a partir de variables socioeconómicas tradicionales, sino que responde a una combinación de factores individuales, sociales y contextuales. Estos hallazgos justifican la aplicación de técnicas de aprendizaje automático no supervisado para identificar perfiles de comportamiento más complejos que los observables mediante estadísticas descriptivas.
 
 ---
 
@@ -528,6 +552,13 @@ Los tres métodos de interpretación coincidieron en los mismos factores:
 > **Extensión a provincias con perfil similar:** ¿Es Tierra del Fuego un caso aislado, o parte de algo más grande? Neuquén, Santa Cruz y Chubut comparten las mismas características identificadas como factores de riesgo. Si el patrón se repite, estaríamos ante un **fenómeno patagónico**.
 
 > **Análisis longitudinal:** El presente estudio posee un diseño transversal, por lo que permite describir la distribución observada en un momento determinado, pero no establecer trayectorias individuales ni relaciones causales.
+
+---
+
+## Aporte del Trabajo
+
+> Este trabajo demuestra que las técnnicas de aprendizaje automático no supervisado pueden aplicarse al análisis de fenómenos sociales complejos, permitiendo identificar perfiles de comportamiento que no resultan evidentes mediante estadísticas descriptivas tradicionales. La comparación entre Tierra del Fuego y el promedio nacional aporta una perspectiva territorial que evidencia la importancia de analizar realidades locales y no únicamente indicadores agregados. En este sentido, los resultados obtenidos constituyen una herramienta exploratoria que puede orientar futuras investigaciones y contribuir al diseño de estrategias de prevención basadas en evidencia.
+>
 
 ---
 
