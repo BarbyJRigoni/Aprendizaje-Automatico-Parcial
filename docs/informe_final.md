@@ -1,4 +1,4 @@
-# Informe Final — Evaluación Parcial: Aprendizaje Automático
+# Informe Final 
 
 **Título:** Aprendizaje No Supervisado aplicado al consumo de sustancias psicoactivas en jóvenes: un enfoque Nacional con perspectiva territorial en Tierra del Fuego  
 **Alumna:** Bárbara Jesabel Rigoni  
@@ -180,13 +180,16 @@ El preprocesamiento se realizó en 6 pasos:
 
 ## 8. Análisis Exploratorio de Datos (EDA)
 
-### Hallazgos principales
-
 **Perfil sociodemográfico:**
+
+![Perfil sociodemográfico](reports/figures/grafico1_perfil_sociodemografico.png)
+
 - Distribución equilibrada por sexo (51,9% mujeres / 48,1% varones)
 - Distribución uniforme de edades entre 16 y 24 años
 
 **Consumo de sustancias — Nacional vs TDF:**
+
+![Consumo de sustancias](reports/figures/grafico2_consumo_sustancias.png)
 
 | Sustancia | Nacional | TDF | Diferencia |
 |---|---|---|---|
@@ -196,6 +199,8 @@ El preprocesamiento se realizó en 6 pasos:
 
 **Factores de entorno — Nacional vs TDF:**
 
+![Factores de entorno social](reports/figures/grafico3_entorno_social.png)
+
 | Factor | Nacional | TDF |
 |---|---|---|
 | Conoce consumidores | 39,6% | 46,0% |
@@ -203,19 +208,41 @@ El preprocesamiento se realizó en 6 pasos:
 | Acceso a drogas | 34,8% | 52,1% |
 
 **Perfil educativo y laboral:**
+
+![Perfil educativo y laboral](reports/figures/grafico4_educacion_actividad.png)
+
 - TDF tiene mayor proporción de ocupados (59,6% vs 45,1%)
 - TDF tiene menor proporción de inactivos (34,3% vs 48,1%)
 - TDF muestra abandono educativo más temprano
 
 **Contexto socioeconómico:**
+
+![Contexto socioeconomico](reports/figures/grafico5_contexto_socioeconomico.png)
+
 - TDF tiene menos NBI (88,7% sin ninguna vs 82,6%)
 - TDF tiene ingresos significativamente más altos (49,1% en rango alto vs 10,4%)
+
+### Hallazgos principales del EDA
+
+| Indicador | Nacional | TDF |
+|---|---|---|
+| Alcohol último año | 67,4% | 73,6% |
+| Tabaco último año | 32,4% | 40,0% |
+| Marihuana último año | 4,3% | 6,0% |
+| Conoce consumidores | 39,6% | 46,0% |
+| Curiosidad por drogas | 14,8% | 25,3% |
+| Acceso a drogas | 34,8% | 52,1% |
+| Ocupados | 45,1% | 59,6% |
+| Ingresos altos | 10,4% | 49,1% |
+
 
 ---
 
 ## 9. Modelado — K-Means
 
 ### Determinación del K óptimo
+
+![Método del codo y coeficiente de Silhouette](reports/figures/grafico7_kmeans_optimo.png)
 
 | K | Inercia | Silhouette |
 |---|---|---|
@@ -225,6 +252,10 @@ El preprocesamiento se realizó en 6 pasos:
 | 5 | 69.028,0 | 0,096 |
 
 El método del codo y el coeficiente de Silhouette coinciden en **K=3** como valor óptimo.
+
+### Perfiles de consumo por cluster
+
+![Perfiles de consumo por cluster — K-Means K=3](reports/figures/grafico8_clusters_perfil.png)
 
 ### Resultados K-Means (K=3)
 
@@ -254,7 +285,9 @@ El método del codo y el coeficiente de Silhouette coinciden en **K=3** como val
 
 ## 10. Modelado — DBSCAN
 
-### Parámetros óptimos
+### Determinación de eps óptimo
+
+![Distancia al 5° vecino más cercano](reports/figures/grafico10_dbscan_eps.png)
 
 Tras explorar combinaciones de `eps` y `min_samples`, se seleccionó **eps=2.5, min_samples=15** por producir 3 clusters comparables con K-Means y una silueta superior.
 
@@ -284,6 +317,16 @@ Tras explorar combinaciones de `eps` y `min_samples`, se seleccionó **eps=2.5, 
 
 Se aplicó PCA para reducir las 14 variables a 2 componentes principales y visualizar los clusters en 2D.
 
+### Clusters en espacio PCA
+
+![Visualización de clusters mediante PCA](reports/figures/grafico11_pca_clusters.png)
+
+### Clusters sin PCA
+
+![Visualización de clusters sin PCA](reports/figures/grafico12_clusters_sin_pca.png)
+
+> El gráfico sin PCA demuestra por qué la reducción de dimensionalidad es necesaria: las variables categóricas forman bandas que dificultan la visualización de los clusters.
+
 | Componente | Varianza explicada |
 |---|---|
 | PC1 | 14,5% |
@@ -297,6 +340,10 @@ Se aplicó PCA para reducir las 14 variables a 2 componentes principales y visua
 ## 12. Análisis de Outliers
 
 DBSCAN identificó **896 jóvenes (13,6%)** con perfiles atípicos.
+
+### Perfil de outliers
+
+![Perfil de outliers vs resto — DBSCAN](reports/figures/grafico13_outliers.png)
 
 ### Perfil de outliers vs resto
 
@@ -317,6 +364,14 @@ DBSCAN identificó **896 jóvenes (13,6%)** con perfiles atípicos.
 
 Se aplicaron tres métodos complementarios para identificar las variables más influyentes:
 
+### Comparación de medias por cluster
+
+![Variables influyentes — Comparación de medias](reports/figures/grafico14_variables_influyentes.png)
+
+### Tres métodos comparados
+
+![Importancia de variables — Tres métodos](reports/figures/grafico15_importancia_variables.png)
+
 ### Ranking consolidado
 
 | Variable | Cargas PC1 | Dispersión centroides | Diferencia de medias |
@@ -334,6 +389,10 @@ Se aplicaron tres métodos complementarios para identificar las variables más i
 ## 14. Validación mediante Random Forest
 
 Se entrenó un modelo Random Forest usando los clusters de K-Means como variable objetivo para validar su significatividad.
+
+### Matriz de confusión e importancia de variables
+
+![Random Forest — Validación de clusters K-Means](reports/figures/grafico16_random_forest.png)
 
 ### Resultados
 
@@ -360,6 +419,10 @@ Se entrenó un modelo Random Forest usando los clusters de K-Means como variable
 
 ## 15. Comparación TDF vs Nacional
 
+### Distribución de clusters Nacional vs TDF
+
+![Distribución de clusters — Nacional vs TDF](reports/figures/grafico9_clusters_tdf.png)
+
 | Indicador | Nacional | Tierra del Fuego |
 |---|---|---|
 | 🟢 Bajo consumo | 60,1% | 41,1% |
@@ -371,6 +434,10 @@ Se entrenó un modelo Random Forest usando los clusters de K-Means como variable
 ---
 
 ## 16. Análisis Comparativo Temporal 2011–2022
+
+### Evolución del consumo 2011 vs 2022
+
+![Comparación temporal 2011 vs 2022](reports/figures/grafico17_comparacion_temporal.png)
 
 | Sustancia | 2011 | 2022 | Cambio |
 |---|---|---|---|
