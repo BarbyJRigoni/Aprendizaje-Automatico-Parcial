@@ -1,4 +1,6 @@
-# Informe Final 
+ ![Portada del proyecto](../images/portada_tdf_v5.svg)
+
+ # Informe Final
 
 **Título:** Aprendizaje No Supervisado aplicado al consumo de sustancias psicoactivas en jóvenes: un enfoque Nacional con perspectiva territorial en Tierra del Fuego  
 **Alumna:** Bárbara Jesabel Rigoni  
