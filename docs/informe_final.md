@@ -152,7 +152,9 @@ La población de estudio está compuesta por 6.592 jóvenes de entre 16 y 24 añ
 | `POB_URB` | Tamaño del aglomerado urbano | Territorial |
 | `PRVNC` | Provincia de residencia | Territorial |
 
-> La elección de estas variables se fundamenta en la evidencia disponible sobre factores de riesgo asociados al consumo de sustancias psicoactivas, documentados por organismos internacionales y nacionales como MedlinePlus (NIH) y el Observatorio Argentino de Drogas (SEDRONAR). Entre ellos se destacan la influencia del entorno social, el acceso a sustancias, los antecedentes familiares, la salud mental y diversas condiciones socioeconómicas y territoriales.
+> `PRVNC` fue excluida del modelado y utilizada exclusivamente para la comparación territorial.
+
+La elección de estas variables se fundamenta en la evidencia disponible sobre factores de riesgo asociados al consumo de sustancias psicoactivas, documentados por organismos internacionales y nacionales como MedlinePlus (NIH) y el Observatorio Argentino de Drogas (SEDRONAR). Entre ellos se destacan la influencia del entorno social, el acceso a sustancias, los antecedentes familiares, la salud mental y diversas condiciones socioeconómicas y territoriales.
 
 ### Variables de consumo (análisis descriptivo)
 
@@ -186,7 +188,7 @@ Cada una de estas etapas tuvo como finalidad minimizar el impacto de errores de 
 
 ### Resultado del preprocesamiento
 
-Como resultado de este proceso se obtuvo un conjunto de datos limpio, consistente y sin valores faltantes, apto para la aplicación de los algoritmos de aprendizaje automático. El dataset final utilizado para el modelado quedó conformado por **6.592 registros y 14 variables**, excluyendo la variable `PRVNC`, que se reservó para la comparación territorial posterior y no se utilizó en la construcción de los clusters.
+Como resultado de este proceso se obtuvo un conjunto de datos limpio, consistente y sin valores faltantes, apto para la aplicación de los algoritmos de aprendizaje automático. El dataset final utilizado para el modelado quedó conformado por **6.592 registros y 14 variables predictoras**, excluyendo la variable `PRVNC`, que se reservó para la comparación territorial posterior y no se utilizó en la construcción de los clusters.
 
 ---
 
@@ -356,7 +358,7 @@ Además, la capacidad de detectar perfiles atípicos constituye una ventaja meto
 
 ## 11. Visualización mediante PCA
 
-Se aplicó PCA para reducir las 14 variables a 2 componentes principales y visualizar los clusters en 2D.
+Se aplicó PCA para reducir las 14 variables predictoras a 2 componentes principales y visualizar los clusters en 2D.
 
 ### Clusters en espacio PCA
 
