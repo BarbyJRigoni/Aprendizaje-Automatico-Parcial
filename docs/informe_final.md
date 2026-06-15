@@ -184,14 +184,14 @@ El preprocesamiento se realizó en 6 pasos:
 
 **Perfil sociodemográfico:**
 
-![Perfil sociodemográfico](![Perfil sociodemográfico — Distribución por sexo y edad](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico1_perfil_sociodemografico.png))
+![Perfil sociodemográfico — Distribución por sexo y edad](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico1_perfil_sociodemografico.png)
 
 - Distribución equilibrada por sexo (51,9% mujeres / 48,1% varones)
 - Distribución uniforme de edades entre 16 y 24 años
 
 **Consumo de sustancias — Nacional vs TDF:**
 
-![Consumo de sustancias](.../reports/figures/grafico2_consumo_sustancias.png)
+![Prevalencia de consumo último año — Nacional vs TDF](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico2_consumo_sustancias.png)
 
 | Sustancia | Nacional | TDF | Diferencia |
 |---|---|---|---|
@@ -201,7 +201,7 @@ El preprocesamiento se realizó en 6 pasos:
 
 **Factores de entorno — Nacional vs TDF:**
 
-![Factores de entorno social](.../reports/figures/grafico3_entorno_social.png)
+![Factores de entorno social — Nacional vs TDF](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico3_entorno_social.png)
 
 | Factor | Nacional | TDF |
 |---|---|---|
@@ -211,7 +211,7 @@ El preprocesamiento se realizó en 6 pasos:
 
 **Perfil educativo y laboral:**
 
-![Perfil educativo y laboral](.../reports/figures/grafico4_educacion_actividad.png)
+![Perfil educativo y laboral — Nacional vs TDF](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico4_educacion_actividad.png)
 
 - TDF tiene mayor proporción de ocupados (59,6% vs 45,1%)
 - TDF tiene menor proporción de inactivos (34,3% vs 48,1%)
@@ -219,7 +219,7 @@ El preprocesamiento se realizó en 6 pasos:
 
 **Contexto socioeconómico:**
 
-![Contexto socioeconomico](.../reports/figures/grafico5_contexto_socioeconomico.png)
+![Contexto socioeconómico — Nacional vs TDF](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico5_contexto_socioeconomico.png)
 
 - TDF tiene menos NBI (88,7% sin ninguna vs 82,6%)
 - TDF tiene ingresos significativamente más altos (49,1% en rango alto vs 10,4%)
@@ -244,7 +244,7 @@ El preprocesamiento se realizó en 6 pasos:
 
 ### Determinación del K óptimo
 
-![Método del codo y coeficiente de Silhouette](.../reports/figures/grafico7_kmeans_optimo.png)
+![Método del codo y coeficiente de Silhouette](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico7_kmeans_optimo.png)
 
 | K | Inercia | Silhouette |
 |---|---|---|
@@ -257,7 +257,7 @@ El método del codo y el coeficiente de Silhouette coinciden en **K=3** como val
 
 ### Perfiles de consumo por cluster
 
-![Perfiles de consumo por cluster — K-Means K=3](.../reports/figures/grafico8_clusters_perfil.png)
+![Perfiles de consumo por cluster — K-Means K=3](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico8_clusters_perfil.png)
 
 ### Resultados K-Means (K=3)
 
@@ -289,7 +289,7 @@ El método del codo y el coeficiente de Silhouette coinciden en **K=3** como val
 
 ### Determinación de eps óptimo
 
-![Distancia al 5° vecino más cercano](.../reports/figures/grafico10_dbscan_eps.png)
+![Distancia al 5° vecino más cercano](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico10_dbscan_eps.png)
 
 Tras explorar combinaciones de `eps` y `min_samples`, se seleccionó **eps=2.5, min_samples=15** por producir 3 clusters comparables con K-Means y una silueta superior.
 
@@ -321,11 +321,11 @@ Se aplicó PCA para reducir las 14 variables a 2 componentes principales y visua
 
 ### Clusters en espacio PCA
 
-![Visualización de clusters mediante PCA](.../reports/figures/grafico11_pca_clusters.png)
+![Visualización de clusters mediante PCA](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico11_pca_clusters.png)
 
 ### Clusters sin PCA
 
-![Visualización de clusters sin PCA](.../reports/figures/grafico12_clusters_sin_pca.png)
+![Visualización de clusters sin PCA](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico12_clusters_sin_pca.png)
 
 > El gráfico sin PCA demuestra por qué la reducción de dimensionalidad es necesaria: las variables categóricas forman bandas que dificultan la visualización de los clusters.
 
@@ -345,7 +345,7 @@ DBSCAN identificó **896 jóvenes (13,6%)** con perfiles atípicos.
 
 ### Perfil de outliers
 
-![Perfil de outliers vs resto — DBSCAN](.../reports/figures/grafico13_outliers.png)
+![Perfil de outliers vs resto — DBSCAN](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico13_outliers.png)
 
 ### Perfil de outliers vs resto
 
@@ -368,11 +368,11 @@ Se aplicaron tres métodos complementarios para identificar las variables más i
 
 ### Comparación de medias por cluster
 
-![Variables influyentes — Comparación de medias](.../reports/figures/grafico14_variables_influyentes.png)
+![Variables influyentes — Comparación de medias](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico14_variables_influyentes.png)
 
 ### Tres métodos comparados
 
-![Importancia de variables — Tres métodos](.../reports/figures/grafico15_importancia_variables.png)
+![Importancia de variables — Tres métodos](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico15_importancia_variables.png)
 
 ### Ranking consolidado
 
@@ -394,7 +394,7 @@ Se entrenó un modelo Random Forest usando los clusters de K-Means como variable
 
 ### Matriz de confusión e importancia de variables
 
-![Random Forest — Validación de clusters K-Means](.../reports/figures/grafico16_random_forest.png)
+![Random Forest — Importancia de variables](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico16_random_forest.png)
 
 ### Resultados
 
@@ -423,7 +423,7 @@ Se entrenó un modelo Random Forest usando los clusters de K-Means como variable
 
 ### Distribución de clusters Nacional vs TDF
 
-![Distribución de clusters — Nacional vs TDF](.../reports/figures/grafico9_clusters_tdf.png)
+![Distribución de clusters — Nacional vs TDF](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico9_clusters_tdf.png)
 
 | Indicador | Nacional | Tierra del Fuego |
 |---|---|---|
@@ -439,7 +439,7 @@ Se entrenó un modelo Random Forest usando los clusters de K-Means como variable
 
 ### Evolución del consumo 2011 vs 2022
 
-![Comparación temporal 2011 vs 2022](.../reports/figures/grafico17_comparacion_temporal.png)
+![Comparación temporal 2011 vs 2022](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico17_comparacion_temporal.png)
 
 | Sustancia | 2011 | 2022 | Cambio |
 |---|---|---|---|
