@@ -102,6 +102,8 @@ Este enfoque es adecuado porque:
 
 ## 5. Descripción del Dataset
 
+El análisis se realizó utilizando la Encuesta Nacional sobre Prevalencias de Consumo de Sustancias Psicoactivas (ENPreCoSP 2011). A partir de la base original se seleccionó la población objetivo correspondiente a jóvenes de entre 16 y 24 años y, posteriormente, se identificó el subconjunto perteneciente a la provincia de Tierra del Fuego para realizar la comparación territorial.
+
 ### Dimensiones generales
 
 | Característica | Dataset completo | Jóvenes 16-24 años | Subconjunto TDF |
@@ -124,11 +126,13 @@ Este enfoque es adecuado porque:
 | Pasta base último año | 4 consumidores (0,1%) |
 | Tranquilizantes último año | 74 consumidores (1,1%) |
 
+La población de estudio está compuesta por 6.592 jóvenes de entre 16 y 24 años, con una distribución equilibrada por sexo y una edad promedio de 20,1 años. En términos descriptivos, el alcohol constituye la sustancia de mayor prevalencia, seguido por el tabaco, mientras que el consumo de otras sustancias presenta frecuencias considerablemente menores. Estos resultados ofrecen una primera caracterización de la muestra sobre la cual se desarrollará el análisis de perfiles mediante técnicas de aprendizaje automático.
+
 ---
 
 ## 6. Variables Seleccionadas
 
-### Variables para el clustering (15 variables finales)
+### Variables utilizadas para el modelado
 
 | Variable | Descripción | Categoría |
 |---|---|---|
@@ -148,7 +152,7 @@ Este enfoque es adecuado porque:
 | `POB_URB` | Tamaño del aglomerado urbano | Territorial |
 | `PRVNC` | Provincia de residencia | Territorial |
 
-> La selección está fundamentada en los factores de riesgo documentados por **MedlinePlus (NIH)** y el **Observatorio Argentino de Drogas (SEDRONAR)**: antecedentes familiares de adicción, trastornos de salud mental, presión de grupo, falta de implicación familiar, consumo en edad temprana y acceso a sustancias.
+> La elección de estas variables se fundamenta en la evidencia disponible sobre factores de riesgo asociados al consumo de sustancias psicoactivas, documentados por organismos internacionales y nacionales como MedlinePlus (NIH) y el Observatorio Argentino de Drogas (SEDRONAR). Entre ellos se destacan la influencia del entorno social, el acceso a sustancias, los antecedentes familiares, la salud mental y diversas condiciones socioeconómicas y territoriales.
 
 ### Variables de consumo (análisis descriptivo)
 
@@ -161,23 +165,28 @@ Este enfoque es adecuado porque:
 | `P1A_PB` | Pasta Base |
 | `P1A_TR` | Tranquilizantes |
 
+> Estas variables no fueron utilizadas para construir los clusters, sino para describir e interpretar los perfiles de consumo identificados durante el análisis exploratorio y la comparación entre grupos.
+
 ---
 
-## 7. Preprocesamiento
+# 7. Preprocesamiento
 
-El preprocesamiento se realizó en 6 pasos:
+Antes de aplicar los algoritmos de aprendizaje automático, se realizó un proceso de preprocesamiento con el objetivo de garantizar la calidad, consistencia y comparabilidad de los datos. Este procedimiento permitió eliminar inconsistencias, tratar valores faltantes y preparar las variables para el modelado.
 
 | Paso | Acción | Resultado |
 |---|---|---|
-| 1 | Selección de variables | 16 variables seleccionadas |
-| 2 | Eliminación de BIAC02 | 60% nulos — variable redundante con BIAC01 |
-| 3 | Detección de códigos NS/NC | 5 variables afectadas (9, 99 según diccionario) |
-| 4 | Reemplazo NS/NC por NaN | 567 valores tratados |
-| 5 | Imputación | Mediana para RANGOING, moda para el resto |
-| 6 | Normalización (StandardScaler) | Media=0, Std=1 en todas las variables |
+| 1 | Selección de variables | 16 variables inicialmente seleccionadas |
+| 2 | Eliminación de BIAC02 | Variable descartada por presentar aproximadamente un 60% de valores faltantes y aportar información redundante respecto de BIAC01 |
+| 3 | Identificación de códigos NS/NC | Se detectaron códigos especiales (9 y 99, según el diccionario de la encuesta) en 5 variables |
+| 4 | Reemplazo por valores faltantes (NaN) | Se trataron 567 registros |
+| 5 | Imputación | Mediana para `RANGOING` y moda para las restantes variables categóricas |
+| 6 | Normalización | Aplicación de `StandardScaler` (media = 0, desvío estándar = 1) |
 
-> Como resultado de este proceso se obtuvo un conjunto de datos limpio, consistente y sin valores faltantes, apto para la aplicación de los algoritmos de clustering.
-> > **Dataset final:** 6.592 registros × 14 variables (sin `PRVNC`) para el modelado.
+Cada una de estas etapas tuvo como finalidad minimizar el impacto de errores de registro y asegurar que las diferencias de escala entre variables no condicionaran el funcionamiento de los algoritmos de clustering. En particular, la estandarización fue un paso fundamental, ya que métodos basados en distancia, como K-Means y DBSCAN, son sensibles a la magnitud de las variables y podrían otorgar un peso desproporcionado a aquellas con valores numéricamente mayores.
+
+### Resultado del preprocesamiento
+
+Como resultado de este proceso se obtuvo un conjunto de datos limpio, consistente y sin valores faltantes, apto para la aplicación de los algoritmos de aprendizaje automático. El dataset final utilizado para el modelado quedó conformado por **6.592 registros y 14 variables**, excluyendo la variable `PRVNC`, que se reservó para la comparación territorial posterior y no se utilizó en la construcción de los clusters.
 
 ---
 
@@ -187,7 +196,6 @@ El preprocesamiento se realizó en 6 pasos:
 
 ![Perfil sociodemográfico — Distribución por sexo y edad](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico1_perfil_sociodemografico.png)
 
-  ### Interpretación
 
 La distribución de la muestra presenta un equilibrio entre mujeres (51,9%) y varones (48,1%), mientras que las edades se distribuyen de manera relativamente uniforme entre los 16 y los 24 años. Esta composición resulta favorable para el análisis, ya que reduce el riesgo de que los resultados estén fuertemente condicionados por un predominio de un sexo o de una edad específica dentro de la población estudiada. En consecuencia, las diferencias observadas en etapas posteriores podrán interpretarse con mayor énfasis en función de las variables analizadas y no como un efecto de la estructura demográfica de la muestra.
 
@@ -200,8 +208,6 @@ La distribución de la muestra presenta un equilibrio entre mujeres (51,9%) y va
 | Alcohol | 67,4% | 73,6% | +6,2% |
 | Tabaco | 32,4% | 40,0% | +7,6% |
 | Marihuana | 4,3% | 6,0% | +1,7% |
-
-### Interpretación
 
 El análisis descriptivo muestra que Tierra del Fuego presenta prevalencias de consumo superiores al promedio nacional para las tres sustancias consideradas. Las mayores diferencias se observan en alcohol y tabaco, mientras que el consumo de marihuana también registra valores superiores, aunque con una brecha más moderada.
 
@@ -217,8 +223,6 @@ Estos resultados constituyen uno de los primeros indicios de que la población j
 | Curiosidad por drogas | 14,8% | 25,3% |
 | Acceso a drogas | 34,8% | 52,1% |
 
-### Interpretación
-
 Las variables relacionadas con el entorno social muestran diferencias relevantes entre Tierra del Fuego y el promedio nacional. En la provincia se observa una mayor proporción de jóvenes que manifiestan conocer personas consumidoras, sentir curiosidad por probar drogas y percibir un acceso más sencillo a estas sustancias.
 
 En conjunto, estos resultados sugieren una mayor exposición al contexto de consumo dentro de la población fueguina. Si bien el análisis descriptivo no permite establecer relaciones causales, estas variables podrían desempeñar un papel importante en la diferenciación de los perfiles identificados durante la etapa de modelado.
@@ -227,7 +231,6 @@ En conjunto, estos resultados sugieren una mayor exposición al contexto de cons
 
 ![Perfil educativo y laboral — Nacional vs TDF](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico4_educacion_actividad.png)
 
-### Interpretación
 
 En comparación con el promedio nacional, Tierra del Fuego presenta una mayor proporción de jóvenes ocupados y una menor proporción de inactivos. Al mismo tiempo, se observa un abandono educativo más temprano dentro de la muestra provincial.
 
@@ -237,7 +240,6 @@ Estos resultados reflejan una dinámica distinta de inserción educativa y labor
 
 ![Contexto socioeconómico — Nacional vs TDF](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico5_contexto_socioeconomico.png)
 
-### Interpretación
 
 El análisis del contexto socioeconómico indica que Tierra del Fuego presenta una menor proporción de hogares con Necesidades Básicas Insatisfechas y una concentración significativamente mayor de jóvenes en los niveles de ingresos más altos respecto del promedio nacional.
 
@@ -277,7 +279,10 @@ La coexistencia de estos resultados sugiere que el fenómeno del consumo no pued
 | 4 | 71.956,2 | 0,099 |
 | 5 | 69.028,0 | 0,096 |
 
-El método del codo y el coeficiente de Silhouette coinciden en **K=3** como valor óptimo.
+
+Se evaluaron distintas alternativas para la cantidad de clusters con el objetivo de encontrar una partición que combinara calidad estadística e interpretabilidad. Si bien el método del codo y las métricas de evaluación constituyen una guía importante, la decisión final también consideró el significado sustantivo de los grupos obtenidos.
+
+La solución con tres clusters ofreció un equilibrio adecuado entre separación, estabilidad e interpretación, permitiendo distinguir perfiles de bajo, moderado y alto consumo sin generar una segmentación excesivamente fragmentada.
 
 ### Perfiles de consumo por cluster
 
@@ -298,6 +303,10 @@ El método del codo y el coeficiente de Silhouette coinciden en **K=3** como val
 | Coeficiente de Silhouette | 0,140 |
 | Índice Davies-Bouldin | 2,387 |
 
+El coeficiente de Silhouette obtenido indica una separación moderada entre los clusters. Si bien el valor no es elevado, este comportamiento es esperable en datos provenientes de encuestas sociales, donde los perfiles suelen presentar zonas de superposición y límites poco definidos.
+
+Por su parte, el índice de Davies-Bouldin se encuentra dentro de un rango aceptable para este tipo de aplicaciones, sugiriendo que los grupos identificados poseen una diferenciación suficiente para su interpretación.
+
 ### Prevalencia de consumo por cluster
 
 | Sustancia | Bajo consumo | Moderado | Alto consumo |
@@ -315,7 +324,7 @@ El método del codo y el coeficiente de Silhouette coinciden en **K=3** como val
 
 ![Distancia al 5° vecino más cercano](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico10_dbscan_eps.png)
 
-Tras explorar combinaciones de `eps` y `min_samples`, se seleccionó **eps=2.5, min_samples=15** por producir 3 clusters comparables con K-Means y una silueta superior.
+La selección de los parámetros `eps=2.5` y `min_samples=15` se realizó luego de evaluar distintas combinaciones con el objetivo de obtener una partición estable y comparable con la obtenida mediante K-Means. Esta configuración permitió identificar tres agrupamientos principales manteniendo una adecuada capacidad de separación entre observaciones y, al mismo tiempo, detectar individuos con comportamientos significativamente diferentes del resto de la población.
 
 ### Resultados DBSCAN
 
@@ -326,6 +335,10 @@ Tras explorar combinaciones de `eps` y `min_samples`, se seleccionó **eps=2.5, 
 | Cluster 1 | 565 | 8,6% |
 | Cluster 2 | 269 | 4,1% |
 
+A diferencia de K-Means, DBSCAN no obliga a que todas las observaciones pertenezcan a un cluster. El algoritmo identifica además un conjunto de 896 jóvenes clasificados como outliers o perfiles atípicos, que representan aproximadamente el 13,6% de la muestra.
+
+Desde una perspectiva analítica, este resultado es relevante porque sugiere la existencia de patrones de comportamiento que no se ajustan a los grupos predominantes. En lugar de forzar su asignación a un cluster, el algoritmo los reconoce como casos con características particulares, preservando así una representación más fiel de la estructura de los datos.
+
 ### Comparación K-Means vs DBSCAN
 
 | Métrica | K-Means | DBSCAN |
@@ -335,7 +348,9 @@ Tras explorar combinaciones de `eps` y `min_samples`, se seleccionó **eps=2.5, 
 | Davies-Bouldin | 2,387 | **1,846** ✅ |
 | Outliers detectados | 0 | 896 |
 
-> DBSCAN supera a K-Means en ambas métricas y adicionalmente detecta 896 jóvenes con perfiles atípicos.
+La comparación de métricas muestra que DBSCAN obtuvo un coeficiente de Silhouette ligeramente superior y un índice de Davies-Bouldin inferior al de K-Means, lo que indica una mejor separación y una mayor compacidad de los grupos identificados.
+
+Además, la capacidad de detectar perfiles atípicos constituye una ventaja metodológica importante para este tipo de datos sociales, donde no todos los individuos responden a patrones homogéneos de comportamiento. No obstante, ambos algoritmos identificaron una estructura general consistente de tres perfiles, lo que aporta robustez a los resultados obtenidos y fortalece la interpretación posterior de los clusters.
 
 ---
 
@@ -359,7 +374,8 @@ Se aplicó PCA para reducir las 14 variables a 2 componentes principales y visua
 | PC2 | 11,4% |
 | **Total** | **25,9%** |
 
-> La varianza total del 25,9% es esperable en datos de encuestas sociales de alta dimensionalidad, donde los comportamientos humanos no siguen patrones perfectamente separables.
+La varianza total del 25,9% es esperable en datos de encuestas sociales de alta dimensionalidad, donde los comportamientos humanos no siguen patrones perfectamente separables.
+El Análisis de Componentes Principales se utilizó como una herramienta de visualización para representar la estructura de los datos en un espacio bidimensional. Aunque las dos primeras componentes no capturan la totalidad de la variabilidad, permiten observar la existencia de agrupamientos consistentes con los perfiles identificados por el algoritmo de clustering y facilitan su interpretación gráfica.
 
 ---
 
@@ -388,15 +404,19 @@ DBSCAN identificó **896 jóvenes (13,6%)** con perfiles atípicos.
 
 ## 13. Interpretación de Variables
 
-Se aplicaron tres métodos complementarios para identificar las variables más influyentes:
+Con el objetivo de comprender qué características explican mejor la diferenciación entre los perfiles identificados, se aplicaron tres enfoques complementarios de análisis. En lugar de depender de un único criterio, se compararon las cargas de las componentes principales, la dispersión de los centroides y las diferencias de medias entre clusters. Esta estrategia permitió obtener una visión más robusta sobre la importancia relativa de cada variable.
 
 ### Comparación de medias por cluster
 
 ![Variables influyentes — Comparación de medias](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico14_variables_influyentes.png)
 
+La comparación de medias evidencia que las diferencias entre los clusters no se distribuyen de manera uniforme entre todas las variables analizadas. Algunas presentan variaciones marcadas, mientras que otras mantienen valores similares entre los grupos, indicando una menor capacidad para discriminar perfiles de consumo.
+
 ### Tres métodos comparados
 
 ![Importancia de variables — Tres métodos](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico15_importancia_variables.png)
+
+La utilización de tres métodos independientes permitió contrastar la estabilidad de los resultados. A pesar de las diferencias propias de cada técnica, existe una coincidencia significativa en la identificación de las variables asociadas al entorno social como las de mayor capacidad discriminante, lo que incrementa la confianza en la interpretación de los perfiles obtenidos.
 
 ### Ranking consolidado
 
@@ -408,13 +428,21 @@ Se aplicaron tres métodos complementarios para identificar las variables más i
 | **Ingreso hogar** | 4° | 7° | 1° |
 | **Salud mental** | 13° | 1° | 14° |
 
-> Las variables de **entorno social** (acceso a drogas, conocer consumidores, curiosidad) son consistentemente las más influyentes en todos los métodos, por encima de variables socioeconómicas como NBI o tipo de hogar.
+> Las variables de **entorno social** (acceso a drogas, conocer consumidores, curiosidad) fueron las que mostraron una mayor capacidad para diferenciar los perfiles identificados en el conjunto de datos analizado.
+
+El ranking consolidado muestra una coincidencia notable entre los distintos métodos aplicados. Las variables relacionadas con el acceso a drogas, el conocimiento de personas consumidoras y la curiosidad por probar sustancias aparecen sistemáticamente entre las primeras posiciones, independientemente del criterio utilizado.
+
+Por el contrario, variables tradicionalmente asociadas al contexto socioeconómico, como las Necesidades Básicas Insatisfechas o la composición del hogar, presentan una menor capacidad para diferenciar los perfiles identificados. Si bien el nivel de ingresos del hogar muestra una influencia relevante en algunos análisis, su comportamiento no resulta tan consistente como el observado para las variables de entorno social.
+
+Un resultado particularmente interesante es el caso de la variable vinculada a salud mental, que muestra una alta capacidad discriminante en el análisis de centroides, pero una menor relevancia en los demás métodos. Esta discrepancia sugiere que su influencia podría concentrarse en determinados grupos específicos y no de manera uniforme sobre toda la población analizada.
+
+En conjunto, estos resultados indican que la diferenciación entre los perfiles de consumo parece estar más asociada al contexto social y a la exposición a sustancias que a variables exclusivamente económicas. No obstante, debido al carácter exploratorio del estudio, estas asociaciones deben interpretarse como patrones observados dentro de los datos y no como relaciones causales.
 
 ---
 
 ## 14. Validación mediante Random Forest
 
-Se entrenó un modelo Random Forest usando los clusters de K-Means como variable objetivo para validar su significatividad.
+Con el objetivo de evaluar la consistencia de los perfiles obtenidos mediante K-Means, se entrenó un modelo supervisado de Random Forest utilizando los clusters identificados como variable objetivo. Esta estrategia no busca generar un nuevo modelo de clasificación, sino analizar si los grupos descubiertos pueden ser reproducidos a partir de las variables disponibles, aportando una validación adicional de su estructura.
 
 ### Matriz de confusión e importancia de variables
 
@@ -429,6 +457,10 @@ Se entrenó un modelo Random Forest usando los clusters de K-Means como variable
 | Recall (macro) | 0,98 |
 | F1-score (macro) | 0,98 |
 
+El modelo obtuvo una exactitud (Accuracy) del 98,1%, acompañada por valores igualmente elevados de precisión, recall y F1-score. En conjunto, estas métricas indican que las variables incluidas en el análisis permiten diferenciar con gran claridad los perfiles identificados por el algoritmo de clustering.
+
+Desde una perspectiva metodológica, este resultado aporta evidencia de que los clusters no representan una partición arbitraria de los datos, sino una estructura consistente que puede ser reconocida por un algoritmo supervisado utilizando la información disponible.
+
 ### Importancia de variables (Random Forest)
 
 | Ranking | Variable | Importancia |
@@ -439,7 +471,13 @@ Se entrenó un modelo Random Forest usando los clusters de K-Means como variable
 | 4° | Curiosidad drogas | ~0,06 |
 | 5° | Ingreso hogar | ~0,04 |
 
-> Un accuracy del 98,1% confirma que los clusters son **altamente significativos** y no aleatorios. Los perfiles de consumo descubiertos reflejan patrones reales y consistentes en los datos.
+El análisis de importancia de variables muestra que el acceso a drogas constituye el factor con mayor capacidad para diferenciar los perfiles identificados, seguido por variables relacionadas con la salud mental y el conocimiento de personas consumidoras. También aparecen entre las variables más relevantes la curiosidad por probar drogas y el nivel de ingresos del hogar, aunque con una contribución comparativamente menor.
+
+La coincidencia entre estos resultados y los obtenidos mediante los análisis anteriores fortalece la interpretación de que el entorno social y la exposición a sustancias desempeñan un papel central en la diferenciación de los perfiles observados. En consecuencia, el fenómeno analizado parece responder a una combinación de factores contextuales e individuales más que a una única dimensión socioeconómica.
+
+### Conclusión metodológica
+
+En conjunto, los resultados obtenidos mediante Random Forest respaldan la estabilidad de la segmentación generada por K-Means y muestran que los perfiles identificados pueden distinguirse con un alto grado de precisión a partir de las variables analizadas. Si bien este procedimiento no constituye una demostración de causalidad ni una validación absoluta de los clusters, sí aporta evidencia adicional sobre la coherencia interna de la estructura encontrada.
 
 ---
 
@@ -455,7 +493,13 @@ Se entrenó un modelo Random Forest usando los clusters de K-Means como variable
 | 🟡 Consumo moderado | 9,7% | 7,5% |
 | 🔴 Alto consumo | 30,2% | **51,3%** |
 
-> **Hallazgo central:** mientras que a nivel nacional 3 de cada 10 jóvenes pertenecen al grupo de alto consumo, en Tierra del Fuego esa proporción asciende a más de **5 de cada 10**.
+La comparación entre la distribución nacional y la correspondiente a Tierra del Fuego evidencia una diferencia marcada en la composición de los perfiles identificados. Mientras que a nivel nacional la mayor proporción de jóvenes pertenece al perfil de bajo consumo, en Tierra del Fuego aumenta considerablemente la participación del perfil de alto consumo, acompañado por una reducción del grupo de bajo consumo.
+
+Este resultado constituye el principal hallazgo de la investigación, ya que sugiere que la estructura de perfiles obtenida mediante técnicas de aprendizaje automático no se distribuye de manera homogénea en el territorio argentino. En particular, la provincia de Tierra del Fuego presenta una concentración significativamente mayor de jóvenes dentro del perfil de mayor riesgo relativo.
+
+Desde una perspectiva analítica, estos resultados refuerzan la importancia de incorporar el contexto territorial en el estudio del consumo de sustancias. Si bien el presente trabajo tiene un carácter exploratorio y no permite establecer relaciones causales, la magnitud de las diferencias observadas indica que el comportamiento provincial merece un análisis específico y no puede inferirse únicamente a partir de los promedios nacionales.
+
+En términos prácticos, esto implica que mientras aproximadamente tres de cada diez jóvenes integran el perfil de alto consumo en el conjunto nacional, en Tierra del Fuego esa proporción supera los cinco de cada diez. Esta diferencia resume el principal aporte empírico del presente estudio.
 
 ---
 
@@ -467,98 +511,78 @@ Se entrenó un modelo Random Forest usando los clusters de K-Means como variable
 
 | Sustancia | 2011 | 2022 | Cambio |
 |---|---|---|---|
-| 🍺 Alcohol | 67,4% | 70,2% | ↑ +2,8% |
-| 🚬 Tabaco | 32,4% | 22,9% | ↓ -9,5% |
-| 🌿 Marihuana | 4,3% | 17,4% | ↑↑ **+13,1%** |
-| 💊 Tranquilizantes | 1,1% | 2,7% | ↑ +1,6% |
+| Alcohol | 67,4% | 70,2% | ↑ +2,8% |
+| Tabaco | 32,4% | 22,9% | ↓ -9,5% |
+| Marihuana | 4,3% | 17,4% | ↑↑ **+13,1%** |
+| Tranquilizantes | 1,1% | 2,7% | ↑ +1,6% |
 
-El aumento de marihuana del 4,3% al 17,4% —prácticamente cuadruplicándose— coincide temporalmente con la sanción de la **Ley 27.350** de uso medicinal del cannabis (2017) y la posterior reglamentación del autocultivo (2020).
+La comparación entre los datos de 2011 y 2022 muestra que la evolución del consumo no fue homogénea entre las distintas sustancias. Mientras que el consumo de tabaco presenta una disminución importante, el alcohol mantiene una prevalencia elevada con un incremento moderado y la marihuana registra el crecimiento relativo más significativo del período analizado.
 
-> **Nota metodológica:** esta comparación es parcial. La ENCoPraC 2022 no permite desagregación provincial y solo 4 de las 15 variables predictoras tienen equivalente directo entre ambas encuestas.
+Particularmente, el aumento observado en el consumo de marihuana constituye uno de los cambios más relevantes de la serie comparativa, pasando del 4,3% al 17,4%. Este resultado evidencia una modificación sustancial del contexto de consumo entre ambas mediciones y sugiere la necesidad de profundizar futuras investigaciones sobre los factores sociales, culturales y normativos que pudieron intervenir durante ese período.
+
+No obstante, debido a las diferencias metodológicas entre las encuestas utilizadas, estos resultados deben interpretarse como una comparación descriptiva y no como una estimación directa de tendencias causales.
+
+> ### Consideraciones metodológicas
+
+La comparación presentada tiene un carácter exploratorio. La ENCoPraC 2022 no permite realizar una desagregación provincial equivalente a la utilizada en este estudio y únicamente cuatro de las variables predictoras empleadas poseen correspondencia directa entre ambas encuestas. En consecuencia, los resultados deben interpretarse como una referencia descriptiva de la evolución observada y no como una validación del modelo desarrollado.
 
 ---
 
 ## 17. Conclusiones Finales
 
-### 1. Sobre los perfiles de consumo descubiertos
+El presente estudio permitió identificar perfiles diferenciados de consumo de sustancias psicoactivas en jóvenes argentinos mediante técnicas de Aprendizaje Automático No Supervisado. Tanto K-Means como DBSCAN revelaron una estructura consistente de agrupamientos, lo que indica que la población analizada no presenta un comportamiento homogéneo sino patrones claramente diferenciados de consumo.
 
-K-Means (K=3) y DBSCAN identificaron tres perfiles naturales de consumo en jóvenes argentinos de 16 a 24 años:
+Uno de los principales hallazgos de la investigación es que la distribución de estos perfiles difiere entre el conjunto nacional y la provincia de Tierra del Fuego. Mientras que a nivel nacional aproximadamente tres de cada diez jóvenes pertenecen al perfil de alto consumo, en Tierra del Fuego esta proporción supera los cinco de cada diez, constituyendo la diferencia territorial más relevante observada en el estudio.
 
-| Perfil | Proporción | Características |
-|---|---|---|
-| 🟢 **Bajo consumo** | 60,1% | Consumo moderado de alcohol, muy bajo de otras sustancias |
-| 🔴 **Alto consumo** | 30,2% | Alcohol (87,1%), tabaco (49,4%), marihuana (11,8%) |
-| 🟡 **Consumo moderado** | 9,7% | Alcohol y tabaco, sin sustancias ilícitas |
+El análisis de importancia de variables mostró una coincidencia consistente entre distintos métodos de interpretación. Las variables relacionadas con el acceso a sustancias, el conocimiento de personas consumidoras y la curiosidad por probar drogas presentaron una mayor capacidad para diferenciar los perfiles que otros indicadores socioeconómicos tradicionales. Este resultado sugiere que el fenómeno responde a una interacción compleja entre factores sociales e individuales y no exclusivamente a condiciones económicas.
 
-> ✅ La validación mediante Random Forest alcanzó un accuracy del **98,1%**, confirmando que los clusters son significativos y no aleatorios.
+Desde el punto de vista metodológico, el trabajo demuestra el potencial del aprendizaje automático como herramienta exploratoria para el análisis de fenómenos sociales complejos. La combinación de técnicas de clustering, reducción de dimensionalidad y modelos supervisados permitió obtener una interpretación integral de los datos y aportar evidencia complementaria sobre la estabilidad de los perfiles identificados.
 
-### 2. Sobre los factores más influyentes
+## 18. Limitaciones del estudio
 
-Los tres métodos de interpretación coincidieron en los mismos factores:
+Como toda investigación exploratoria basada en técnicas de aprendizaje automático y datos observacionales, el presente trabajo presenta una serie de limitaciones que deben considerarse al interpretar sus resultados.
 
-| Ranking | Factor | Interpretación |
-|---|---|---|
-| 🥇 | **Acceso a drogas** | El factor más determinante en todos los métodos |
-| 🥈 | **Conocer consumidores cercanos** | La presión del entorno social |
-| 🥉 | **Curiosidad por probar drogas** | La predisposición personal |
-| 4° | **Ingreso del hogar** | El nivel económico facilita el acceso |
+### Limitaciones metodológicas
 
-> Las variables socioeconómicas tradicionales como NBI y tipo de hogar resultaron poco influyentes, sugiriendo que el consumo en jóvenes está más asociado al **entorno social** que a la pobreza.
+El coeficiente de Silhouette obtenido (0,140) refleja una separación moderada entre los clusters identificados. Sin embargo, este comportamiento resulta esperable en estudios sobre conductas humanas, donde los individuos no se distribuyen en categorías perfectamente definidas, sino que presentan zonas de superposición. Como señala Rousseeuw (1987), este tipo de resultados es frecuente en fenómenos sociales complejos y no implica necesariamente una baja utilidad del modelo.
 
-### 3. Sobre el perfil específico de Tierra del Fuego
+Por otra parte, el algoritmo DBSCAN identificó 896 jóvenes (13,6% de la muestra) como perfiles atípicos. La diversidad de estos casos sugiere que no constituyen un grupo homogéneo, sino un conjunto de comportamientos particulares cuya interpretación requiere análisis específicos que exceden el alcance de este estudio.
 
-| Indicador | Nacional | Tierra del Fuego |
-|---|---|---|
-| Cluster de alto consumo | 30,2% | **51,3%** |
-| Alcohol (último año) | 67,4% | **73,6%** |
-| Tabaco (último año) | 32,4% | **40,0%** |
-| Marihuana (último año) | 4,3% | **6,0%** |
-| Conoce consumidores | 39,6% | **46,0%** |
-| Acceso percibido a drogas | 34,8% | **52,1%** |
+### Limitaciones de los datos
 
-> A pesar de mejores condiciones económicas, los jóvenes fueguinos presentan mayor consumo. El aislamiento geográfico, la mayor disponibilidad de ingresos y la alta exposición social son factores de riesgo específicos del territorio.
+El subconjunto correspondiente a Tierra del Fuego está compuesto por 265 registros, por lo que las estimaciones territoriales deben interpretarse con la cautela propia de un tamaño muestral reducido.
 
-### 4. Sobre la evolución temporal 2011–2022
+Asimismo, la base ENPreCoSP 2011 constituye una fuente de datos con más de una década de antigüedad. Si bien se incorporó una comparación descriptiva con la ENCoPraC 2022 para contextualizar algunos resultados, el modelo desarrollado se construyó sobre información correspondiente a 2011.
 
-| Sustancia | 2011 | 2022 | Tendencia |
-|---|---|---|---|
-| 🍺 Alcohol | 67,4% | 70,2% | ↑ +2,8% |
-| 🚬 Tabaco | 32,4% | 22,9% | ↓ -9,5% |
-| 🌿 Marihuana | 4,3% | 17,4% | ↑↑ **+13,1%** |
-| 💊 Tranquilizantes | 1,1% | 2,7% | ↑ +1,6% |
+### Limitaciones de la comparación temporal
 
-> El aumento de marihuana coincide con la sanción de la **Ley 27.350** (2017) y la reglamentación del autocultivo (2020).
+La comparación entre 2011 y 2022 tiene un carácter exclusivamente descriptivo. La ENCoPraC 2022 no dispone de una desagregación provincial equivalente para Tierra del Fuego y solo cuatro de las variables utilizadas en el modelo poseen una correspondencia directa entre ambas encuestas. En consecuencia, esta sección debe interpretarse como una referencia sobre la evolución observada y no como una validación del modelo propuesto.
 
-### 5. Limitaciones del estudio
+## 19. Futuras líneas de investigación
 
-**Limitaciones del modelo:**
-- El coeficiente de Silhouette (0,140) es bajo, aunque esperable cuando se trabaja con comportamientos humanos. Como señala **Rousseeuw (1987)**, las conductas sociales no se dividen en grupos nítidos: las personas no encajan perfectamente en categorías, y esa superposición no es un error del método sino un reflejo de los fenómenos sociales.
-- DBSCAN identificó 896 jóvenes (13,6%) como outliers. Su distribución dispersa sugiere perfiles diversos y no un grupo homogéneo, lo que limita su interpretación.
+### Incorporación de variables de salud mental
 
-**Limitaciones del dataset:**
-- El subconjunto de TDF es reducido (N=265), lo que implica mayor margen de error en las estimaciones territoriales.
-- El dataset ENPreCoSP 2011 tiene 13 años de antigüedad, aunque la comparación con ENCoPraC 2022 permite contextualizar parcialmente esta limitación.
+La variable de salud mental disponible en la base utilizada mostró una baja capacidad discriminante. Sin embargo, este resultado probablemente refleje las limitaciones del indicador más que la ausencia de relación entre salud mental y consumo. Futuras investigaciones podrían incorporar medidas específicas de ansiedad, depresión, estrés percibido y bienestar psicológico para profundizar este análisis.
 
-**Limitaciones de la comparación temporal:**
-- La ENCoPraC 2022 no incluye variable de provincia, lo que impide reproducir el análisis territorial.
-- Solo 4 de las 15 variables predictoras tienen equivalente directo en 2022, acotando la comparación exclusivamente a prevalencias de consumo.
+### Extensión del análisis a otras provincias patagónicas
 
-### 6. Recomendaciones y futuras líneas de investigación
+Las características observadas en Tierra del Fuego plantean el interés de extender este tipo de análisis a otras provincias de la región patagónica, como Neuquén, Santa Cruz y Chubut. La identificación de patrones similares permitiría evaluar si las diferencias encontradas responden a particularidades locales o a un comportamiento regional más amplio.
 
-**Futuras líneas de investigación:**
+### Estudios longitudinales
 
-> **Incorporación de variables de salud mental:** La variable BISG04 fue prácticamente irrelevante (diferencia de medias: 0,005), aunque esto dice más sobre los límites del indicador que sobre la relación entre salud mental y consumo. Futuras investigaciones deberían incorporar variables de ansiedad, depresión y estrés percibido.
-
-> **Extensión a provincias con perfil similar:** ¿Es Tierra del Fuego un caso aislado, o parte de algo más grande? Neuquén, Santa Cruz y Chubut comparten las mismas características identificadas como factores de riesgo. Si el patrón se repite, estaríamos ante un **fenómeno patagónico**.
-
-> **Análisis longitudinal:** El presente estudio posee un diseño transversal, por lo que permite describir la distribución observada en un momento determinado, pero no establecer trayectorias individuales ni relaciones causales.
+El presente trabajo posee un diseño transversal, por lo que permite describir la distribución observada en un momento determinado, pero no analizar la evolución individual de los participantes ni establecer relaciones causales. La disponibilidad de estudios longitudinales permitiría comprender con mayor profundidad la dinámica de los perfiles de consumo a lo largo del tiempo.
 
 ---
 
-## Aporte del Trabajo
+# Aporte del trabajo
 
-> Este trabajo demuestra que las técnnicas de aprendizaje automático no supervisado pueden aplicarse al análisis de fenómenos sociales complejos, permitiendo identificar perfiles de comportamiento que no resultan evidentes mediante estadísticas descriptivas tradicionales. La comparación entre Tierra del Fuego y el promedio nacional aporta una perspectiva territorial que evidencia la importancia de analizar realidades locales y no únicamente indicadores agregados. En este sentido, los resultados obtenidos constituyen una herramienta exploratoria que puede orientar futuras investigaciones y contribuir al diseño de estrategias de prevención basadas en evidencia.
->
+El presente trabajo pone de manifiesto el potencial de las técnicas de aprendizaje automático no supervisado para el análisis de fenómenos sociales complejos. A través de la identificación de perfiles de consumo, fue posible reconocer patrones de comportamiento que no resultan evidentes mediante estadísticas descriptivas tradicionales.
+
+Asimismo, la comparación entre Tierra del Fuego y el promedio nacional aporta una perspectiva territorial que destaca la importancia de analizar realidades locales y no únicamente indicadores agregados. Los resultados obtenidos sugieren que la distribución de los perfiles de consumo puede variar significativamente entre regiones, aun cuando compartan un mismo contexto nacional.
+
+Desde el punto de vista metodológico, la investigación integra técnicas de clustering, reducción de dimensionalidad e interpretación de variables en un mismo flujo de análisis, demostrando el valor de combinar herramientas de ciencia de datos con preguntas propias de las ciencias sociales.
+
+En este sentido, el estudio constituye una aproximación exploratoria que puede servir como punto de partida para futuras investigaciones y contribuir al diseño de estrategias de prevención y políticas públicas basadas en evidencia.
 
 ---
 
