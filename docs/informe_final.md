@@ -184,7 +184,7 @@ El preprocesamiento se realizó en 6 pasos:
 
 **Perfil sociodemográfico:**
 
-![Perfil sociodemográfico](.../reports/figures/grafico1_perfil_sociodemografico.png)
+![Perfil sociodemográfico](![Perfil sociodemográfico — Distribución por sexo y edad](https://raw.githubusercontent.com/BarbyJRigoni/Aprendizaje-Automatico-Parcial/main/reports/figures/grafico1_perfil_sociodemografico.png))
 
 - Distribución equilibrada por sexo (51,9% mujeres / 48,1% varones)
 - Distribución uniforme de edades entre 16 y 24 años
