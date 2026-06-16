@@ -45,6 +45,7 @@ Parcial-Aprendizaje-Automatico/
 │
 ├── notebooks/                        ← Notebooks Jupyter del proyecto
 │   └── Rigoni_Barbara_Parcial.ipynb
+|   └── Portada.ipynb
 │
 ├── docs/                             ← Documentación del proyecto 
 │   ├── entrega.md
