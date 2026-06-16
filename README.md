@@ -54,7 +54,7 @@ Parcial-Aprendizaje-Automatico/
 │   └── figures/                      ← Gráficos y visualizaciones
 │   
 ├── video/                            ← Video explicativo del proyecto
-│   └── Link.md
+│   └── link.md
 |
 └── references/                       ← Fuentes y bibliografía
     └── referencias.md
@@ -151,6 +151,9 @@ scikit-learn    # Modelos de ML
 matplotlib      # Visualizaciones
 seaborn         # Visualizaciones estadísticas
 ```
+
+## 🎬 Video explicativo
+El video de presentación del proyecto está disponible en [`video/link.md`](video/link.md).
 
 ---
 
